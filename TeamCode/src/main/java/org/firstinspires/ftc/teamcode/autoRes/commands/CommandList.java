@@ -18,7 +18,7 @@ public class CommandList implements ICommand {
     }
 
     /**
-     * This method should be called after initilization and only once to start the
+     * This method should be called after initialization and only once to start the
      * commands
      */
     public void run() {
