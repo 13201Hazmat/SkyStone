@@ -42,7 +42,7 @@ public class IntegrationTest extends LinearOpMode {
         Controller controller = new Controller(gamepad1);
         waitForStart();
         while (opModeIsActive()) {
-            //Other unit test code if you want
+            // Other unit test code if you want
             telemetry.update();
         }
     }

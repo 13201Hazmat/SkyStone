@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Hook {
 
     public Servo hook;
+
     public Hook(HardwareMap hardwareMap) {
 
     }

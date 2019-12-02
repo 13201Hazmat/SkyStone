@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class Controller extends Gamepad {
-    //This is the gamepad passed in from init in a teleop mode
+    // This is the gamepad passed in from init in a teleop mode
     Gamepad controller;
-    //These are modifiers to the valaues the gamepad gives us
+    // These are modifiers to the values the gamepad gives us
     double leftStickXMod = 1;
     double leftStickYMod = -1;
     double rightStickXMod = 1;
@@ -19,7 +19,8 @@ public class Controller extends Gamepad {
     double rightTriggerMod = 1.0;
     double leftTriggerMod = 1.0;
 
-    //Records last button press to deal with single button presses doing a certain methods
+    // Records last button press to deal with single button presses doing a certain
+    // methods
     boolean aLast = false;
     boolean bLast = false;
     boolean xLast = false;
@@ -27,12 +28,12 @@ public class Controller extends Gamepad {
     boolean rightBumperLast = false;
     boolean leftBumperLast = false;
 
-    //Use given controller in teleop mode
+    // Use given controller in teleop mode
     public Controller(Gamepad controller) {
         this.controller = controller;
     }
 
-    //these return the value given times the modifier
+    // these return the value given times the modifier
     public double getLeftStickX() {
         return controller.left_stick_x * leftStickXMod;
     }
@@ -57,7 +58,8 @@ public class Controller extends Gamepad {
         return controller.left_trigger * leftTriggerMod;
     }
 
-    //These methods return the oppisite of the button if the modifier is false and the same if it is true
+    // These methods return the opposite of the button if the modifier is false and
+    // the same if it is true
     public boolean getA() {
         return aMod ? controller.a : !controller.a;
     }
@@ -118,7 +120,8 @@ public class Controller extends Gamepad {
         return isPress;
     }
 
-    //method is used to convert linear map from contorller input to power into a cubic map
+    // method is used to convert linear map from controller input to power into a
+    // cubic map
     public double limitStick(double stickInput) {
         return stickInput * stickInput * stickInput;
     }
