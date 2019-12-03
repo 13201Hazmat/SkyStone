@@ -30,6 +30,11 @@ public class IntakeNoWrist {
     double gripOpenPosition = 0.75; //Value is specific for each grip
     double gripClosePosition = 0.25; //Value is specific for each grip
 
+    double grip2OpenPosition = 1 - gripOpenPosition;
+    double grip2ClosePosition = 1 - gripClosePosition;
+
+
+
     //Constructor
     public IntakeNoWrist(HardwareMap hardwareMap) {
         grip = hardwareMap.servo.get("grip");
@@ -48,7 +53,7 @@ public class IntakeNoWrist {
      */
     public void openGrip(){
         grip2.setPosition(gripOpenPosition);
-        grip.setPosition(1.0-gripOpenPosition);
+        grip.setPosition(grip2OpenPosition);
     }
 
     /**
@@ -56,7 +61,7 @@ public class IntakeNoWrist {
      */
     public void closeGrip(){
         grip2.setPosition(gripClosePosition);
-        grip.setPosition(1.0-gripOpenPosition);
+        grip.setPosition(grip2ClosePosition);
 
     }
 
