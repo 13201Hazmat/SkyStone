@@ -62,7 +62,7 @@ public class Chassis {
 
     public boolean configureRobot = false;
 
-    double ChassisMotorEncoderCount = 723.24;
+    double ChassisMotorEncoderCount = 537.6;
 
     /**
      * Constructor of Chassis.
@@ -114,7 +114,7 @@ public class Chassis {
     public void initChassis() {
         resetChassis();
         setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // set the digital channel Touch Sensor to input.
         //frontleftChassisTouchSensor.setMode(DigitalChannel.Mode.INPUT);

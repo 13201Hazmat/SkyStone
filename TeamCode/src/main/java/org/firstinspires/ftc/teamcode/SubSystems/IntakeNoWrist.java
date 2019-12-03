@@ -47,16 +47,16 @@ public class IntakeNoWrist {
      * Method to open Grip
      */
     public void openGrip(){
-        grip.setPosition(gripOpenPosition);
-        grip2.setPosition(1.0-gripOpenPosition);
+        grip2.setPosition(gripOpenPosition);
+        grip.setPosition(1.0-gripOpenPosition);
     }
 
     /**
      * Method to  close Grip
      */
     public void closeGrip(){
-        grip.setPosition(gripClosePosition);
-        grip2.setPosition(1.0-gripOpenPosition);
+        grip2.setPosition(gripClosePosition);
+        grip.setPosition(1.0-gripOpenPosition);
 
     }
 

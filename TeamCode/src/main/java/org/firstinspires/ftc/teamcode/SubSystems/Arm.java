@@ -72,7 +72,7 @@ public class Arm {
     public void initArm() {
         resetArm();
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Arm {
      /**
      * Method to set Arm brake mode to OFF when Zero (0.0) power is applied.
      * To be used when arm is on groundlevel or blockLevel[0]
-     * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+     * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT)
      */
     public void turnArmBrakeModeOff(){
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -100,9 +100,9 @@ public class Arm {
      */
     public void resetArm() {
 
-        DcMotor.RunMode runMode = armMotor.getMode();
+        //DcMotor.RunMode runMode = armMotor.getMode();
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(runMode);
+        //armMotor.setMode(runMode);
     }
 
     /**
