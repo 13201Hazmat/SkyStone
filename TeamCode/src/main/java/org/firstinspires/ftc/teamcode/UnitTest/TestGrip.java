@@ -12,46 +12,65 @@ public class TestGrip extends LinearOpMode {
 
     public boolean HzDEBUG_FLAG = true;
 
-    public Servo grip1;
-    public Servo grip2;
+    public Servo left_grip;
+    public Servo right_grip;
 
     final static double GRIP_HOME = 0.0;
-    final static double GRIP_MIN_RANGE = 0.25;
-    final static double GRIP_MAX_RANGE = 0.75;
+    final static double GRIP_MIN_RANGE = 0;
+    final static double GRIP_MAX_RANGE = 1;
+    final static double GRIP_OPEN_LEFT = 0.24;
+    final static double GRIP_OPEN_RIGHT = 0.74;
     final static double GRIP_SPEED=0.01;
 
+    final static double GRIP_CLOSE_LEFT = 0.73;
+    final static double GRIP_CLOSE_RIGHT= 0.23;
+
+
     HzGamepad1NoWrist hzGamepad1NoWrist;
+
+
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         hzGamepad1NoWrist = new HzGamepad1NoWrist(gamepad1);
 
-        grip1 = hardwareMap.servo.get("grip1");
-        grip2 = hardwareMap.servo.get("grip2");
+        left_grip = hardwareMap.servo.get("left_grip");
+        right_grip = hardwareMap.servo.get("right_grip");
         //grip1.setDirection(Servo.Direction.FORWARD);
         //grip2.setDirection(Servo.Direction.REVERSE);
 
-        grip1.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
-        grip2.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
+        //left_grip.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
+        //right_grip.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
+
+
 
 
         waitForStart();
 
         while (opModeIsActive()) {
 
+
+            //when A is pressed, grip is moved down
             if (hzGamepad1NoWrist.getButtonAPress()){
-                //grip1.setDirection(Servo.Direction.FORWARD);
-                //grip2.setDirection(Servo.Direction.REVERSE);
-                grip1.setPosition(GRIP_MIN_RANGE);
-                grip2.setPosition(GRIP_MAX_RANGE);
+
+                left_grip.setPosition(GRIP_CLOSE_LEFT);
+                right_grip.setPosition(GRIP_CLOSE_RIGHT);
             }
-            //If Y is pressed, open grip
+            //If Y is pressed, grip is moved up
             if (hzGamepad1NoWrist.getButtonYPress()){
-                //grip1.setDirection(Servo.Direction.FORWARD);
-                //grip2.setDirection(Servo.Direction.REVERSE);
-                grip1.setPosition(GRIP_MAX_RANGE);
-                grip2.setPosition(GRIP_MIN_RANGE);
+
+                left_grip.setPosition(GRIP_OPEN_LEFT);
+                right_grip.setPosition(GRIP_OPEN_RIGHT);
+            }
+            if (hzGamepad1NoWrist.getButtonBPress()){
+
+                initGrip();
+            }
+
+            if (hzGamepad1NoWrist.getButtonXPress()){
+
+                moveGrip();
             }
 
             if(HzDEBUG_FLAG) printDebugMessages();
@@ -66,7 +85,20 @@ public class TestGrip extends LinearOpMode {
     public void printDebugMessages() {
         telemetry.setAutoClear(true);
         telemetry.addData("HzDEBUG_FLAG is : ", HzDEBUG_FLAG);
-        telemetry.addData("GRIP1 position", grip1.getPosition());
-        telemetry.addData("GRIP2 position", grip2.getPosition());
+        telemetry.addData("GRIP1 position", left_grip.getPosition());
+        telemetry.addData("GRIP2 position", right_grip.getPosition());
+    }
+
+    public void initGrip(){
+
+        left_grip.setPosition(0);
+        right_grip.setPosition(1);
+
+    }
+
+    public void moveGrip(){
+
+        left_grip.setPosition(0.53);
+        right_grip.setPosition(0.43);
     }
 }
