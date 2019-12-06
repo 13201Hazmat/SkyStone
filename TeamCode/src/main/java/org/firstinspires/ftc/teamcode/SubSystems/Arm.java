@@ -36,7 +36,7 @@ public class Arm {
     public DcMotor armMotor;
 
     //Declare Arm levels in arm motor encoder values set just above the block level
-    public int[] blockLevel = {
+    /*public int[] blockLevel = {
              0, //ground level
             -50, //block level 1
             -95, //block level 2
@@ -44,6 +44,17 @@ public class Arm {
             -199, //block level 4
             -255, //block level 5
             -321 //block level 6
+            };
+     */
+
+    public int[] blockLevel = {
+            0, //ground level
+            -100, //block level 1
+            -200, //block level 2
+            -300, //block level 3
+            -400, //block level 4
+            -500, //block level 5
+            -600 //block level 6
     };
     int groundLevel = 0;
     int detectSkystoneLevel = -20; //#TOBEFILLED correctly

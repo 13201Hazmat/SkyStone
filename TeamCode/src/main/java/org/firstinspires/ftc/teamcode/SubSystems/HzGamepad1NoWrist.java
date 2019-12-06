@@ -221,7 +221,8 @@ public class HzGamepad1NoWrist {
      * @return Cube of the stick input reduced to 25% speed
      */
     public double limitStick(double stickInput) {
-        return (stickInput * stickInput * stickInput * 0.25);
+        //return (stickInput * stickInput * stickInput * 0.25);
+        return (stickInput * stickInput * stickInput * 0.30);
     }
 
     /**
@@ -234,7 +235,8 @@ public class HzGamepad1NoWrist {
     public double turboMode(double stickInput) {
         double acceleration_factor;
         double rightTriggerValue = getRightTrigger();
-        acceleration_factor = 1.0 + 3.0 * rightTriggerValue;
+        //acceleration_factor = 1.0 + 3.0 * rightTriggerValue;
+        acceleration_factor = 1.0 + 2.0 * rightTriggerValue;
         return limitStick(stickInput) * acceleration_factor;
     }
 
@@ -243,7 +245,7 @@ public class HzGamepad1NoWrist {
      *
      * @param apChassis Chassis object passed for autoPlace
      * @param apArm Arm object passed for autoPlace
-     * @param apIntake Intake object passed for autoPlace
+     * @param apIntakeNoWrist Intake object passed for autoPlace
      */
     public void autoPlace(Chassis apChassis, Arm apArm, IntakeNoWrist apIntakeNoWrist) {
         //Assumption - Arm is holding block right at the holding height of level to place
