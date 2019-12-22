@@ -59,7 +59,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  //* @return : stoneDetected
  */
 public class Intake {
-    public Servo wrist;
+    //public Servo wrist;
     public Servo left_grip;
     public Servo right_grip;    // public ColorSensor detectSkystoneColor;
     // public DistanceSensor detectSkystoneDistance;
@@ -79,21 +79,21 @@ public class Intake {
     public int grip_state=0; // 0-INIT, 1-OPEN, 2-CLOSE
 
     //Wrist position values on servo motor from close to Vertocal to midPositon1 to midPsition2 to Horizontal
-    public int wristCurrentPosition;
+    /*public int wristCurrentPosition;
     public double[] wristPosition = {
             0.2,  //closePosition
             0.5,  //VerticalPosition
             0.66, //MidPosition1
             0.83, //MidPosition2
             1.0,  //HorizontalPosition
-    };
+    };*/
     // public boolean skystoneDetected;
     // public boolean stoneDetected;
 
 
     //Constructor
     public Intake(HardwareMap hardwareMap) {
-        wrist = hardwareMap.servo.get("wrist");
+        //wrist = hardwareMap.servo.get("wrist");
         left_grip = hardwareMap.servo.get("left_grip");
         right_grip = hardwareMap.servo.get("right_grip");
         left_grip.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
@@ -107,7 +107,7 @@ public class Intake {
     //On Start Move wrist to horizontal position
     public void initIntake() {
         // detectSkystoneColor.enableLed(false);
-        moveWristToHorizontal();
+        //moveWristToHorizontal();
         initGrip();
     }
 
@@ -135,62 +135,62 @@ public class Intake {
     public void closeGrip() {
         left_grip.setPosition(GRIP_CLOSE_LEFT);
         right_grip.setPosition(GRIP_CLOSE_RIGHT);
-        grip_state = 1;//CLOSE
+        grip_state = 2;//CLOSE
     }
 
     /**
      * Method to move wrist to Initial position
      */
-    public void moveWristToClose() {
+    /*public void moveWristToClose() {
         wrist.setPosition(wristPosition[0]);//close position = 0.2
         wristCurrentPosition = 0;
-    }
+    }*/
 
     /**
      * Method to move wrist to Vertical position
      */
-    public void moveWristToVertical() {
+    /*public void moveWristToVertical() {
         wrist.setPosition(wristPosition[1]); //vertical position = 0.5
         wristCurrentPosition = 1;
-    }
+    }*/
 
     /**
      * Method to move wrist to Horizontal position
      */
-    public void moveWristToHorizontal() {
+    /*public void moveWristToHorizontal() {
         wrist.setPosition(wristPosition[4]); //Horizontal position = 1.0
         wristCurrentPosition = 4;
-    }
+    }*/
 
     /**
      * Method to manage state of wrist and move based on dpad_up input
      * from Close to Vertical to MidPosition1 to MidPosition2 to Horizontal
      */
 
-    public void moveWristUp() {
+    /*public void moveWristUp() {
         if (wristCurrentPosition < 4) {
             wrist.setPosition(wristPosition[wristCurrentPosition + 1]); //move to next higher position
             wristCurrentPosition++;
         }
-    }
+    }*/
 
     /**
      * Method to manage state of wrist and move based on dpad_down input
      * from Horizontal to MidPosition2 to MidPosition1 to Vertical to Close
      */
-    public void moveWristDown() {
+    /*public void moveWristDown() {
         if (wristCurrentPosition > 0) {
             wrist.setPosition(wristPosition[wristCurrentPosition - 1]); //move to next higher position
             wristCurrentPosition--;
         }
-    }
+    }*/
 
     /**
      * Method to set Intake Color sensor Off
      */
     public void resetIntake() {
         //detectSkystoneColor.enableLed(false);
-        moveWristToHorizontal();
+        //moveWristToHorizontal();
         openGrip();
     }
 

@@ -336,13 +336,13 @@ public class HzGamepad1 {
             }
         }
         //If Dpad_up is pressed, open wrist from close to vertical to horizontal
-        if (getDpad_upPress()){
+        /*if (getDpad_upPress()){
             gpIntake.moveWristUp();
         }
         //If Dpad_down is pressed, close wrist from horizontal to vertical to close
         if (getDpad_downPress()){
             gpIntake.moveWristDown();
-        }
+        }*/
 
     }
 }

@@ -148,8 +148,8 @@ public class BLUE_MoveFdn_ParkWall extends LinearOpMode {
         runFwdBackLeftRight(30, playingAlliance, 0.25);
 
         //Close Grip
-        moveWristToClose();
-        sleep(100);
+        //moveWristToClose();
+        //sleep(100);
 
         turnArmBrakeModeOn();
         sleep(500);
@@ -306,10 +306,10 @@ public class BLUE_MoveFdn_ParkWall extends LinearOpMode {
     /**
      * Method to move wrist to Initial position
      */
-    public void moveWristToClose() {
+    /*public void moveWristToClose() {
         autoIntake.wrist.setPosition(autoIntake.wristPosition[0]);//close position = 0.2
         autoIntake.wristCurrentPosition = 0;
-    }
+    }*/
 
     /**
      * Method to set Arm brake mode to ON when Zero (0.0) power is applied.
