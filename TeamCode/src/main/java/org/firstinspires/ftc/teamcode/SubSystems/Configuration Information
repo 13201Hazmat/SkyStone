@@ -17,16 +17,16 @@ Arm Hardware Map :
         arm : ExHub1 : Motor : Port 0 : Unspecified Motor
 
 Intake Hardware Map :
-    Wrist servo:
-        wrist : ExHub 1 : Servo : Port 0
+    //Wrist servo:
+        //wrist : ExHub 1 : Servo : Port 2
     Grip servo: [Wildcat Qualifier Wrist and Grip]
         grip : ExHub 1 : Servo : Port 1
         opengrip :0.75, close : 0.25
     detectSkystone Color Sensor : [REMOVED]
         detectSkystone : ExHub2 : I2C Port : Port 0
     Grip Servos :
-        left_grip : ExHub 1 : Servo : Port 1
-        right_grip : ExHub 1 : Servo : Port 2
+        left_grip : ExHub 1 : Servo : Port 0
+        right_grip : ExHub 1 : Servo : Port 1
         Upright value : Left : 0.9, right 0.1
         Above block : Left : 0.5, right 0.5
         Grip block : Left : 0.3, right 0.7
