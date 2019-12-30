@@ -43,3 +43,11 @@ Gamepad buttons :
  *      Button B to move Arm to lift after block placement (gamepad1.b)
  *      Button Dpad_up to open wrist (gamepad1.dpad_up)
  *      Button Dpad_down to close wrist (gamepad1.dpad_down)
+
+
+ New Wrist : Hub 1 Port 2
+  Horizontal = 0.97
+
+ New Hook :
+    Hold = 0.8
+    Release up = 0.22
