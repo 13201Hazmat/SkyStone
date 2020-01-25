@@ -26,21 +26,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * @ChassisMethods : initChassis()
  * @ChassisMethods : configureChassis()
  * @ChassisMethods : resetChassis()
- * @ChassisMethods : moveHookServo()
  * @ChassisTeleOpMethods : runByGamepadCommand()
  * @ChassisAutoMethods : runDistance()
- * @ChassisAutoMethods : runFwdTill_frontleftChassisTouchSensor_Pressed(
- * @ChassisAutoMethods : runTill_ChassisRightColorSensorIsRed()
  * @ChassisAutoMethods : turnRobotByAngle()
- * @ChassisAutoMethods : resetColorSensorEnabled()
- * @ChassisAutoMethods : leftColorSensorIsRed()
- * @ChassisAutoMethods : rightColorSensorIsBlue()
- * @ChassisAutoMethods : leftColorSensorIsBlue()
- * @ChassisAutoMethods : rightColorSensorIsRed()
- * @ChassisAutoMethods : frontleftChassisTouchSensorIsPressed()
- * @ChassisAutoMethods : moveHook_holdFoundation()
- * @ChassisAutoMethods : moveHook_Released()
- *
  */
 
 public class Chassis {
@@ -50,15 +38,6 @@ public class Chassis {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-
-    //Declare TouchSensor on front left of Chassis
-    public TouchSensor frontleftChassisTouchSensor;
-
-    //Declare Color Sensors
-    public ColorSensor leftColorSensor;
-    public ColorSensor rightColorSensor;
-
-    public Servo hook;
 
     //Declare Chassis Configuration variables
     public double wheelRadius;
@@ -71,9 +50,6 @@ public class Chassis {
     public boolean configureRobot = false;
 
     public double ChassisMotorEncoderCount = 723.24;
-
-    public double HOOK_HOLD = 0.87;
-    public double HOOK_RELEASED = 0.22;
 
     /**
      * Constructor of Chassis. <BR>
@@ -88,16 +64,6 @@ public class Chassis {
         frontRight = hardwareMap.dcMotor.get("front_right_drive");
         backLeft = hardwareMap.dcMotor.get("back_left_drive");
         backRight = hardwareMap.dcMotor.get("back_right_drive");
-
-        //Map TouchSensor from configuration
-        //frontleftChassisTouchSensor = hardwareMap.touchSensor.get("ch_touch_sensor");
-
-        //Map ColorSensors from configuration
-        //leftColorSensor = hardwareMap.get(ColorSensor.class, "ch_left_color");
-        //rightColorSensor = hardwareMap.get(ColorSensor.class, "ch_right_color");
-
-        //Map Hook from configuration
-        //hook = hardwareMap.servo.get("hook");
 
         //Configure Robot to dimensions and modified for wheel type
         configureRobot();
@@ -126,7 +92,6 @@ public class Chassis {
         resetChassis();
         setZeroBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // To avoid jerk at start
         setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        hook.setPosition(HOOK_RELEASED);
     }
 
     /**
@@ -158,8 +123,6 @@ public class Chassis {
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(runMode);
 
-        leftColorSensor.enableLed(false);
-        rightColorSensor.enableLed(false);
     }
 
     /**
@@ -187,80 +150,6 @@ public class Chassis {
         backRight.setMode(runMode);
     }
 
-    /**
-     * Method to set the ColorSensor to be enabled or disabled
-     * @param colorSensorEnabled to set the mode of color sensor on
-     */
-    public void setLeftColorSensorEnabled(boolean colorSensorEnabled){
-        leftColorSensor.enableLed(colorSensorEnabled);
-    }
-
-    /**
-     * Method to set the ColorSensor to be enabled or disabled
-     * @param colorSensorEnabled to set the mode of color sensor on
-     */
-    public void setRightColorSensorEnabled(boolean colorSensorEnabled){
-             rightColorSensor.enableLed(colorSensorEnabled);
-    }
-
-
-    /**
-     * Method to check for left Color Sensor crossing over Red Line
-     * Used in Autonomous mode to stop below Red Skybridge after moving foundation to wall.
-     * @return if Color Sensor is red
-     */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean leftColorSensorIsRed() {
-        //Logic to detect Red R>400
-        if (leftColorSensor.red()>400) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Method to check for right Color Sensor crossing over Red Line <BR>
-     * Used in Autonomous mode to stop below Red Skybridge after moving blocks (Optional use)
-     * @return if color sensor is red
-     */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    public boolean rightColorSensorIsRed() {
-        //Logic to detect Red R>200 G<127 B<127
-        if (rightColorSensor.red()>400){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Method to check for right Color Sensor crossing over Blue Line <BR>
-     * Used in Autonomous mode to stop below Red Skybridge after moving foundation to wall.
-     * @return if color sensor is blue
-     */
-    public boolean rightColorSensorIsBlue() {
-        //Logic to detect Blue B>400
-        if (rightColorSensor.blue()>400) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Method to check for right Color Sensor crossing over Blue Line <BR>
-     * Used in Autonomous mode to stop below Red Skybridge after after moving blocks (Optional use)
-     * @return if color sensor is blue
-     */
-    public boolean leftColorSensorIsBlue() {
-        //Logic to detect Blue B>400
-        if (leftColorSensor.blue()>400) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * Method to move chassis based on computed vector inputs from Gamepad Joystick inputs
@@ -328,237 +217,6 @@ public class Chassis {
         backRight.setPower(0.0);
     }
 
-
-
-    /**
-     * Method to move chassis based on computed vector inputs for a set max_stop_distance.
-     * Till frontleftChassisTouchSensor is pressed.
-     * To be used in Autonomous mode for moving by distance or turning by angle.
-     * Uses PID loop in motors to ensure motion without errors.
-     * @param max_stop_distance in same unit of measure as wheelRadius
-     * @param power to run motors
-     * @param callingOpMode passed for checking for isStopRequested()
-     */
-    public void runFwdTill_frontleftChassisTouchSensor_Pressed(
-            double max_stop_distance,
-            double power,
-            LinearOpMode callingOpMode) {
-        setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        resetChassis();
-
-        //Max Total Rotations of wheel = distance / circumference of wheel
-        double targetRotations = max_stop_distance/(2*Math.PI*wheelRadius);
-
-        while (!callingOpMode.isStopRequested() &&
-                (!frontleftChassisTouchSensor.isPressed() &&
-                        (Math.abs(backLeft.getCurrentPosition()) < Math.abs(ChassisMotorEncoderCount * targetRotations)
-                        )
-                )
-              ) {
-            frontLeft.setPower(power);
-            frontRight.setPower(power);
-            backLeft.setPower(power);
-            backRight.setPower(power);
-        }
-        setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //#TOBECHECKED TO AVOID JERK
-        frontLeft.setPower(0.0);
-        frontRight.setPower(0.0);
-        backLeft.setPower(0.0);
-        backRight.setPower(0.0);
-    }
-
-    /**
-     * Method to move chassis based on computed vector inputs for a set max_stop_distance.
-     * Till team color is identified below Chassis.
-     * To be used in Autonomous mode for moving by distance or turning by angle.
-     * Uses PID loop in motors to ensure motion without errors.
-     * @param max_stop_distance Max distance to stop
-     * @param strafeDirection 0 for forward or backward, 1 for right, -1 for left
-     * @param power to run motors
-     * @param callingOpMode passed for checking for isStopRequested()
-     */
-    public void runTill_ChassisLeftColorSensorIsRed(
-            double max_stop_distance,
-            double strafeDirection,
-            double power,
-            LinearOpMode callingOpMode){
-        setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        resetChassis();
-
-        //Max Total Rotations of wheel = distance / circumference of wheel
-        double targetRotations = max_stop_distance/(2*Math.PI*wheelRadius);
-
-        //set fwdbackdirection, +ve for forward and negative for backward
-        double fwdbackdirection = max_stop_distance /Math.abs(max_stop_distance);
-
-        while ( !callingOpMode.isStopRequested() &&
-                !leftColorSensorIsRed() &&
-                (Math.abs(backLeft.getCurrentPosition()) < Math.abs(ChassisMotorEncoderCount * targetRotations))
-              ) {
-            if(strafeDirection == 0) {
-                //Go forward or backward
-                frontLeft.setPower(fwdbackdirection*power);
-                frontRight.setPower(fwdbackdirection*power);
-                backLeft.setPower(fwdbackdirection*power);
-                backRight.setPower(fwdbackdirection*power);
-            } else {
-                frontLeft.setPower(strafeDirection* power);
-                frontRight.setPower(-strafeDirection* power);
-                backLeft.setPower(-strafeDirection* power);
-                backRight.setPower(strafeDirection* power);
-            }
-        }
-        setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //#TOBECHECKED TO AVOID JERK
-        frontLeft.setPower(0.0);
-        frontRight.setPower(0.0);
-        backLeft.setPower(0.0);
-        backRight.setPower(0.0);
-    }
-
-    /**
-     * Method to move chassis based on computed vector inputs for a set max_stop_distance.
-     * Till team color is identified below Chassis.
-     * To be used in Autonomous mode for moving by distance or turning by angle.
-     * Uses PID loop in motors to ensure motion without errors.
-     * @param max_stop_distance Max distance to stop
-     * @param strafeDirection 0 for forward or backward, 1 for right, -1 for left
-     * @param power to run motors
-     * @param callingOpMode passed for checking for isStopRequested()
-     */
-    public void runTill_ChassisLeftColorSensorIsBlue(
-            double max_stop_distance,
-            double strafeDirection,
-            double power,
-            LinearOpMode callingOpMode){
-        setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        resetChassis();
-
-        //Max Total Rotations of wheel = distance / circumference of wheel
-        double targetRotations = max_stop_distance/(2*Math.PI*wheelRadius);
-
-        //set fwdbackdirection, +ve for forward and negative for backward
-        double fwdbackdirection = max_stop_distance /Math.abs(max_stop_distance);
-
-        while (!callingOpMode.isStopRequested() &&
-                !leftColorSensorIsBlue() &&
-                (Math.abs(backLeft.getCurrentPosition()) < Math.abs(ChassisMotorEncoderCount * targetRotations))
-              ) {
-            if(strafeDirection == 0) {
-                //Go forward or backward
-                frontLeft.setPower(fwdbackdirection*power);
-                frontRight.setPower(fwdbackdirection*power);
-                backLeft.setPower(fwdbackdirection*power);
-                backRight.setPower(fwdbackdirection*power);
-            } else {
-                frontLeft.setPower(strafeDirection* power);
-                frontRight.setPower(-strafeDirection* power);
-                backLeft.setPower(-strafeDirection* power);
-                backRight.setPower(strafeDirection* power);
-            }
-        }
-        setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //#TOBECHECKED TO AVOID JERK
-        frontLeft.setPower(0.0);
-        frontRight.setPower(0.0);
-        backLeft.setPower(0.0);
-        backRight.setPower(0.0);
-    }
-
-    /**
-     * Method to move chassis based on computed vector inputs for a set max_stop_distance.
-     * Till team color is identified below Chassis.
-     * To be used in Autonomous mode for moving by distance or turning by angle.
-     * Uses PID loop in motors to ensure motion without errors.
-     * @param max_stop_distance Max distance to stop
-     * @param strafeDirection 0 for forward or backward, 1 for right, -1 for left
-     * @param power to run motors
-     * @param callingOpMode passed for checking for isStopRequested()
-     */
-    public void runTill_ChassisRightColorSensorIsRed(
-            double max_stop_distance,
-            double strafeDirection,
-            double power,
-            LinearOpMode callingOpMode){
-        setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        resetChassis();
-
-        //Max Total Rotations of wheel = distance / circumference of wheel
-        double targetRotations = max_stop_distance/(2*Math.PI*wheelRadius);
-
-        //set fwdbackdirection, +ve for forward and negative for backward
-        double fwdbackdirection = max_stop_distance /Math.abs(max_stop_distance);
-
-        while ( !callingOpMode.isStopRequested() &&
-                !rightColorSensorIsRed() &&
-                (Math.abs(backLeft.getCurrentPosition()) < Math.abs(ChassisMotorEncoderCount * targetRotations))
-              ) {
-            if(strafeDirection == 0) {
-                //Go forward or backward
-                frontLeft.setPower(fwdbackdirection*power);
-                frontRight.setPower(fwdbackdirection*power);
-                backLeft.setPower(fwdbackdirection*power);
-                backRight.setPower(fwdbackdirection*power);
-            } else {
-                frontLeft.setPower(strafeDirection* power);
-                frontRight.setPower(-strafeDirection* power);
-                backLeft.setPower(-strafeDirection* power);
-                backRight.setPower(strafeDirection* power);
-            }
-        }
-        setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //#TOBECHECKED TO AVOID JERK
-        frontLeft.setPower(0.0);
-        frontRight.setPower(0.0);
-        backLeft.setPower(0.0);
-        backRight.setPower(0.0);
-    }
-
-    /**
-     * Method to move chassis based on computed vector inputs for a set max_stop_distance.
-     * Till team color is identified below Chassis.
-     * To be used in Autonomous mode for moving by distance or turning by angle.
-     * Uses PID loop in motors to ensure motion without errors.
-     * @param max_stop_distance Max distance to stop
-     * @param strafeDirection 0 for forward or backward, 1 for right, -1 for left
-     * @param power to run motors
-     * @param callingOpMode passed for checking for isStopRequested()
-     */
-    public void runTill_ChassisRightColorSensorIsBlue(
-            double max_stop_distance,
-            double strafeDirection,
-            double power,
-            LinearOpMode callingOpMode){
-        setMotorMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        resetChassis();
-
-        //Max Total Rotations of wheel = distance / circumference of wheel
-        double targetRotations = max_stop_distance/(2*Math.PI*wheelRadius);
-
-        //set fwdbackdirection, +ve for forward and negative for backward
-        double fwdbackdirection = max_stop_distance /Math.abs(max_stop_distance);
-
-        while (!callingOpMode.isStopRequested() &&
-                !rightColorSensorIsBlue() &&
-                (Math.abs(backLeft.getCurrentPosition()) < Math.abs(ChassisMotorEncoderCount * targetRotations))
-              ) {
-            if(strafeDirection == 0) {
-                //Go forward or backward
-                frontLeft.setPower(fwdbackdirection*power);
-                frontRight.setPower(fwdbackdirection*power);
-                backLeft.setPower(fwdbackdirection*power);
-                backRight.setPower(fwdbackdirection*power);
-            } else {
-                frontLeft.setPower(strafeDirection* power);
-                frontRight.setPower(-strafeDirection* power);
-                backLeft.setPower(-strafeDirection* power);
-                backRight.setPower(strafeDirection* power);
-            }
-        }
-        setZeroBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //#TOBECHECKED TO AVOID JERK
-        frontLeft.setPower(0.0);
-        frontRight.setPower(0.0);
-        backLeft.setPower(0.0);
-        backRight.setPower(0.0);
-    }
-
     /**
      * Method to turn robot by 90 degrees
      * @param clockOrAntiClockwise + 1 for clockwise, -1 for anticlockwise
@@ -586,48 +244,5 @@ public class Chassis {
         backRight.setPower(0.0);
     }
 
-    /**
-     * Method to identify when frontleftChassisTouchSensor is pressed.
-     * frontleftChassisTouchSensor.getState() return true when not touched.
-     *
-     */
-    public boolean frontleftChassisTouchSensorIsPressed(){
-        if (frontleftChassisTouchSensor.isPressed()){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Method to move hook  to hold on foundation
-     */
-    public void moveHook_holdFoundation(){
-        moveHookServo(HOOK_HOLD);
-    }
-
-    /**
-     * Method to move hold to released default state
-     */
-    public void moveHook_Released(){
-        moveHookServo(HOOK_RELEASED);
-    }
-
-
-    /**
-     * Mothod to move the hook to the set level
-     * @param hookLevel
-     */
-    public void moveHookServo(double hookLevel){
-        if (hookLevel <= HOOK_RELEASED){
-            hookLevel = HOOK_RELEASED;
-        }
-
-        if (hookLevel >= HOOK_HOLD){
-            hookLevel = HOOK_HOLD;
-        }
-
-        hook.setPosition(hookLevel);
-    }
 
 }
