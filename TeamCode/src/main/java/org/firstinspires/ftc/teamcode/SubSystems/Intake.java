@@ -50,14 +50,14 @@ public class Intake {
     };
 
     //Constructor
-    public Intake(HardwareMap hardwareMap) {
+    /*public Intake(HardwareMap hardwareMap) {
         wrist = hardwareMap.servo.get("wrist");
         left_grip = hardwareMap.servo.get("left_grip");
         right_grip = hardwareMap.servo.get("right_grip");
         left_grip.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
         right_grip.scaleRange(GRIP_MIN_RANGE,GRIP_MAX_RANGE);
     }
-
+    */
     //On Start Move wrist to horizontal position
     public void initIntake() {
         moveWristToHorizontal();

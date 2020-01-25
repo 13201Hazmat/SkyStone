@@ -90,14 +90,14 @@ public class Chassis {
         backRight = hardwareMap.dcMotor.get("back_right_drive");
 
         //Map TouchSensor from configuration
-        frontleftChassisTouchSensor = hardwareMap.touchSensor.get("ch_touch_sensor");
+        //frontleftChassisTouchSensor = hardwareMap.touchSensor.get("ch_touch_sensor");
 
         //Map ColorSensors from configuration
-        leftColorSensor = hardwareMap.get(ColorSensor.class, "ch_left_color");
-        rightColorSensor = hardwareMap.get(ColorSensor.class, "ch_right_color");
+        //leftColorSensor = hardwareMap.get(ColorSensor.class, "ch_left_color");
+        //rightColorSensor = hardwareMap.get(ColorSensor.class, "ch_right_color");
 
         //Map Hook from configuration
-        hook = hardwareMap.servo.get("hook");
+        //hook = hardwareMap.servo.get("hook");
 
         //Configure Robot to dimensions and modified for wheel type
         configureRobot();

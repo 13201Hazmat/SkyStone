@@ -71,9 +71,9 @@ public class Arm {
     ElapsedTime ArmMotionTimeOut = new ElapsedTime();
 
     //Constructor
-    public Arm(HardwareMap hardwareMap) {
+    /*public Arm(HardwareMap hardwareMap) {
         armMotor = hardwareMap.dcMotor.get("arm");
-    }
+    }*/
 
     /**
      * Initialize Arm - Reset, Set Zero Behavior to FLOAT (instead of BRAKE),

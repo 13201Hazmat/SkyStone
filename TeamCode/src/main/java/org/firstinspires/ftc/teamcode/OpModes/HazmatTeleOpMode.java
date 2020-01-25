@@ -18,8 +18,8 @@ public class HazmatTeleOpMode extends LinearOpMode{
 
     HzGamepad1 hzGamepad1;
     Chassis hzChassis;
-    Arm hzArm;
-    Intake hzIntake;
+    //Arm hzArm;
+    //Intake hzIntake;
 
 
     @Override
@@ -27,8 +27,8 @@ public class HazmatTeleOpMode extends LinearOpMode{
 
         //Instantiate Subsystems : Chassis, Arm, Intake, Gamepad1
         hzChassis = new Chassis(hardwareMap);
-        hzArm = new Arm(hardwareMap);
-        hzIntake = new Intake(hardwareMap);
+        //hzArm = new Arm(hardwareMap);
+        //hzIntake = new Intake(hardwareMap);
         hzGamepad1 = new HzGamepad1(gamepad1);
 
         telemetry.addData("Hazmat TeleOp Mode", "v:1.0");
@@ -38,16 +38,16 @@ public class HazmatTeleOpMode extends LinearOpMode{
 
         //Initialize on press of play
         hzChassis.initChassis();
-        hzArm.initArmTeleOp();
-        hzIntake.initIntakeTeleOp();
+        //hzArm.initArmTeleOp();
+        //hzIntake.initIntakeTeleOp();
 
         //Run Robot based on Gamepad1 inputs
         while (opModeIsActive()) {
             //Run per Gamepad input
-            hzGamepad1.runSubsystemByGamepadInput(hzChassis, hzArm, hzIntake);
+            hzGamepad1.runSubsystemByGamepadInput(hzChassis/*, hzArm, hzIntake*/);
 
             //Activate auto placement
-            autoPlaceBlock();
+            //autoPlaceBlock();
 
             if(HzDEBUG_FLAG) {
                 printDebugMessages();
@@ -68,7 +68,7 @@ public class HazmatTeleOpMode extends LinearOpMode{
         telemetry.addData("backRightDrive.getCurrentPosition()", hzChassis.frontRight.getCurrentPosition());
         telemetry.addData("backRightDrive.getCurrentPosition()", hzChassis.frontLeft.getCurrentPosition());
         telemetry.addData("hzGamepad1.getLeftTrigger()",hzGamepad1.getLeftTrigger());
-        telemetry.addData("hzChassis.hook.getPosition : ", hzChassis.hook.getPosition());
+        /*telemetry.addData("hzChassis.hook.getPosition : ", hzChassis.hook.getPosition());
         telemetry.addData("armMotor.isBusy : ", hzArm.armMotor.isBusy());
         telemetry.addData("armMotor.getTargetPosition : ", hzArm.armMotor.getTargetPosition());
         telemetry.addData("armMotor.getCurrentPosition : ", hzArm.armMotor.getCurrentPosition());
@@ -79,7 +79,7 @@ public class HazmatTeleOpMode extends LinearOpMode{
         telemetry.addData("Intake.right_grip.getPosition : ", hzIntake.right_grip.getPosition());
         telemetry.addData("Intake.wristCurrentPosition : ", hzIntake.wristCurrentPosition);
         telemetry.addData("Intake.wrist.getPosition : ", hzIntake.wrist.getPosition());
-
+        */
     }
 
     /**
@@ -100,7 +100,7 @@ public class HazmatTeleOpMode extends LinearOpMode{
      *<BR>
      *  Automatic works only when the combo button is kept pressed simultaneously and stops when released<BR>
      */
-    public void autoPlaceBlock(){
+    /*public void autoPlaceBlock(){
 
         //Distance to be moved for each block level
         int[] blockLevelDistance = {
@@ -136,7 +136,7 @@ public class HazmatTeleOpMode extends LinearOpMode{
             hzChassis.runFwdBackLeftRight(-4,0, 0.1, this);
         }
     }
-
+    */
 }
 
 

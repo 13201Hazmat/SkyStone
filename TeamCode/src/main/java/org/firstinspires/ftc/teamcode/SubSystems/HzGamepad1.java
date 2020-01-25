@@ -294,13 +294,13 @@ public class HzGamepad1 {
     /**
      * Method to convert Gamepad commands to actions on Robot
      */
-    public void runSubsystemByGamepadInput(Chassis gpChassis, Arm gpArm, Intake gpIntake) {
+    public void runSubsystemByGamepadInput(Chassis gpChassis/*, Arm gpArm, Intake gpIntake*/) {
 
         /*Chassis actions :
         Convert Left Stick and Right Stick motion to power, target Angle and turn for Chassis
          */
-        gpChassis.setLeftColorSensorEnabled(false);
-        gpChassis.setLeftColorSensorEnabled(false);
+        //gpChassis.setLeftColorSensorEnabled(false);
+        //gpChassis.setLeftColorSensorEnabled(false);
 
         double leftStickX = turboMode(getLeftStickX());
         double leftStickY = turboMode(getLeftStickY());
@@ -310,6 +310,7 @@ public class HzGamepad1 {
         double turn = rightStickX;
         gpChassis.runByGamepadCommand(targetAngle, turn, power);
 
+        /*
         //Move Hook to position set by Left Trigger
         double hookPosition = scaleHookToRange(getLeftTrigger(), gpChassis);
         gpChassis.moveHookServo(hookPosition);
@@ -357,7 +358,7 @@ public class HzGamepad1 {
         if (getDpad_downPress()){
             gpIntake.moveWristDown();
         }
-
+*/
 
 
     }
