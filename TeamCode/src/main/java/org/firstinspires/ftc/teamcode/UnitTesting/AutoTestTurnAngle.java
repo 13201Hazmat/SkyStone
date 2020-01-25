@@ -48,8 +48,8 @@ public class AutoTestTurnAngle extends LinearOpMode{
 
     HzGamepad1 hzGamepad1;
     Chassis hzChassis;
-    Arm hzArm;
-    Intake hzIntake;
+    //Arm hzArm;
+    //Intake hzIntake;
 
     //Timer for timing Autonomous mode
     ElapsedTime AutonomousTimeOut = new ElapsedTime();
@@ -58,8 +58,8 @@ public class AutoTestTurnAngle extends LinearOpMode{
     public void runOpMode() {
         //Instantiate Subsystems : Chassis, Arm, Intake, Gamepad1
         hzChassis = new Chassis(hardwareMap);
-        hzArm = new Arm(hardwareMap);
-        hzIntake = new Intake(hardwareMap);
+        //hzArm = new Arm(hardwareMap);
+        //hzIntake = new Intake(hardwareMap);
         hzGamepad1 = new HzGamepad1(gamepad1);
 
         telemetry.setAutoClear(false);
