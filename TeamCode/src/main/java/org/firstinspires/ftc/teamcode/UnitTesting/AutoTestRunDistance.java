@@ -50,8 +50,8 @@ public class AutoTestRunDistance extends LinearOpMode{
 
     HzGamepad1 hzGamepad1;
     Chassis autoChassis;
-    Arm autoArm;
-    Intake autoIntake;
+    //Arm autoArm;
+    //Intake autoIntake;
     public int robotDepth = 17; // Ball on wall to Edge of Chassis Touch sensor
     public int robotWidth = 17; // Wheel edge to wheel edge
 
@@ -66,8 +66,8 @@ public class AutoTestRunDistance extends LinearOpMode{
     public void runOpMode() {
         //Instantiate Subsystems : Chassis, Arm, Intake, Gamepad1
         autoChassis = new Chassis(hardwareMap);
-        autoArm = new Arm(hardwareMap);
-        autoIntake = new Intake(hardwareMap);
+        //autoArm = new Arm(hardwareMap);
+        //autoIntake = new Intake(hardwareMap);
         hzGamepad1 = new HzGamepad1(gamepad1);
 
         telemetry.setAutoClear(false);
@@ -76,8 +76,8 @@ public class AutoTestRunDistance extends LinearOpMode{
         //Wait for pressing Run on controller
         //Initialize on press of play
         autoChassis.initChassis();
-        autoArm.initArm();
-        autoIntake.initIntake();
+        //autoArm.initArm();
+        //autoIntake.initIntake();
 
         waitForStart();
 
