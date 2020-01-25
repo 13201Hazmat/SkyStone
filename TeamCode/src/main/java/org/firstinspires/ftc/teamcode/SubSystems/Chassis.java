@@ -39,6 +39,9 @@ public class Chassis {
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    //Gyrosensor declaration
+
+
     //Declare Chassis Configuration variables
     public double wheelRadius;
     public double robotRadius;
