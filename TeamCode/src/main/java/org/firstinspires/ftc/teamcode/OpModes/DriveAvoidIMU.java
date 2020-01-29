@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 
-@Autonomous(name = "TestIMU", group = "Autonomous")
+@Autonomous(name = "DriveAvoidIMU", group = "Autonomous")
 
 public class DriveAvoidIMU extends LinearOpMode
 {
