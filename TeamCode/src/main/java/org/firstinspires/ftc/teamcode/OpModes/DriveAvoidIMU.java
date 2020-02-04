@@ -41,8 +41,8 @@ public class DriveAvoidIMU extends LinearOpMode
         frontLeftMotor = hardwareMap.dcMotor.get("front_left_drive");
         frontRightMotor = hardwareMap.dcMotor.get("front_right_drive");
 
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -102,10 +102,10 @@ public class DriveAvoidIMU extends LinearOpMode
             telemetry.addData("3 correction", correction);
             telemetry.update();
 
-            backLeftMotor.setPower(power + correction);
-            frontLeftMotor.setPower(power + correction);
-            backRightMotor.setPower(power - correction);
-            backRightMotor.setPower(power - correction);
+           // backLeftMotor.setPower(power + correction);
+            //frontLeftMotor.setPower(power + correction);
+           // backRightMotor.setPower(power - correction);
+            //frontRightMotor.setPower(power - correction);
 
             // We record the sensor values because we will test them in more than
             // one place with time passing between those places. See the lesson on
@@ -132,10 +132,15 @@ public class DriveAvoidIMU extends LinearOpMode
                 backRightMotor.setPower(0);
 
                 // turn 90 degrees right.
-                if (aButton) rotate(-90, power);
+                if (aButton)
+                    rotate(-75, power);
+                    rotate(-15, 0.8 * power);
 
                 // turn 90 degrees left.
-                if (bButton) rotate(90, power);
+                if (bButton)
+                    rotate(75, power);
+                    rotate(15, 0.8 * power);
+
             }
         }
 
@@ -192,7 +197,7 @@ public class DriveAvoidIMU extends LinearOpMode
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
-        double correction, angle, gain = .10;
+        double correction, angle, gain = .05;
 
         angle = getAngle();
 
@@ -220,14 +225,14 @@ public class DriveAvoidIMU extends LinearOpMode
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
 
-        if (degrees < 0)
+        if (degrees > 0)
         {   // turn right.
             frontLeftPower = power;
             backLeftPower = power;
             frontRightPower = -power;
             backRightPower = -power;
         }
-        else if (degrees > 0)
+        else if (degrees < 0)
         {   // turn left.
             frontLeftPower = -power;
             backLeftPower = -power;
@@ -240,27 +245,27 @@ public class DriveAvoidIMU extends LinearOpMode
         frontLeftMotor.setPower(frontLeftPower);
         backLeftMotor.setPower(backLeftPower);
         frontRightMotor.setPower(frontRightPower);
-        backLeftMotor.setPower(backRightPower);
+        backRightMotor.setPower(backRightPower);
 
         // rotate until turn is completed.
-        if (degrees < 0)
+        if (degrees > 0)
         {
             // On right turn we have to get off zero first.
             while (opModeIsActive() && getAngle() == 0) {}
 
-            while (opModeIsActive() && getAngle() > degrees) {}
+            while (opModeIsActive() && getAngle() < degrees) {}
         }
         else    // left turn.
-            while (opModeIsActive() && getAngle() < degrees) {}
+            while (opModeIsActive() && getAngle() > degrees) {}
 
         // turn the motors off.
         backRightMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
-        backRightMotor.setPower(0);
+        frontLeftMotor.setPower(0);
 
         // wait for rotation to stop.
-        sleep(1000);
+        sleep(200);
 
         // reset angle tracking on new heading.
         resetAngle();
