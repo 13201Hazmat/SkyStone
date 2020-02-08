@@ -64,6 +64,8 @@ public class Chassis {
     public Servo lefthook;
     public Servo righthook;
 
+    // IMU object
+    public IMU robotIMU;
     //Declare Chassis Configuration variables
     public double wheelRadius;
     public double robotRadius;
@@ -112,6 +114,8 @@ public class Chassis {
         //hook = hardwareMap.servo.get("hook");
         lefthook = hardwareMap.servo.get("left_hook");
         righthook = hardwareMap.servo.get("right_hook");
+
+        robotIMU = new IMU(hardwareMap);
 
         //Configure Robot to dimensions and modified for wheel type
         configureRobot();
@@ -581,7 +585,7 @@ public class Chassis {
      * @param power to run motors
      * @param callingOpMode passed for checking for isStopRequested()
      */
-    public void turnby90degree(
+    /*public void turnby90degree(
             int clockOrAntiClockwise,
             double power,
             LinearOpMode callingOpMode){
@@ -601,7 +605,66 @@ public class Chassis {
         backLeft.setPower(0.0);
         backRight.setPower(0.0);
     }
+*/
+    public void turnby90degree(
+            int clockOrAntiClockwise,
+            int degrees,
+            double power,
+            LinearOpMode callingOpMode){
 
+        double  backLeftPower, backRightPower, frontLeftPower, frontRightPower;
+
+        // restart imu movement tracking.
+        robotIMU.resetAngle();
+
+        // getAngle() returns + when rotating counter clockwise (left) and - when rotating
+        // clockwise (right).
+
+        if (degrees > 0)
+        {   // turn right.
+            frontLeftPower = power;
+            backLeftPower = power;
+            frontRightPower = -power;
+            backRightPower = -power;
+        }
+        else if (degrees < 0)
+        {   // turn left.
+            frontLeftPower = -power;
+            backLeftPower = -power;
+            frontRightPower = power;
+            backRightPower = power;
+        }
+        else return;
+
+        // set power to rotate.
+        frontLeft.setPower(frontLeftPower);
+        backLeft.setPower(backLeftPower);
+        frontRight.setPower(frontRightPower);
+        backRight.setPower(backRightPower);
+
+        // rotate until turn is completed.
+        if (degrees > 0)
+        {
+            // On right turn we have to get off zero first.
+            while (!callingOpMode.isStopRequested()&& robotIMU.getAngle() == 0) {}
+
+            while (!callingOpMode.isStopRequested()&& robotIMU.getAngle() < degrees) {}
+        }
+        else    // left turn.
+            while (!callingOpMode.isStopRequested()&& robotIMU.getAngle() > degrees) {}
+
+        // turn the motors off.
+        backRight.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        frontLeft.setPower(0);
+
+        // wait for rotation to stop.
+        callingOpMode.sleep(200);
+
+        // reset angle tracking on new heading.
+        robotIMU.resetAngle();
+    }
     /**
      * Method to identify when frontleftChassisTouchSensor is pressed.
      * frontleftChassisTouchSensor.getState() return true when not touched.
