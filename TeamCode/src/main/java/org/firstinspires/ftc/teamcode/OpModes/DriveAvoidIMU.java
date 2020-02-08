@@ -133,13 +133,13 @@ public class DriveAvoidIMU extends LinearOpMode
 
                 // turn 90 degrees right.
                 if (aButton)
-                    rotate(-75, power);
-                    rotate(-15, 0.8 * power);
+                    rotate(-80, power);
+                    rotate(-10, 0.8 * power);
 
                 // turn 90 degrees left.
                 if (bButton)
-                    rotate(75, power);
-                    rotate(15, 0.8 * power);
+                    rotate(80, power);
+                    rotate(10, 0.8 * power);
 
             }
         }
